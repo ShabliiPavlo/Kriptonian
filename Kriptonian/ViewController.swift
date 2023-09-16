@@ -47,7 +47,9 @@ class ViewController: UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func updateBalance(_ sender: Any) {
-        wallet.text = "Satoshi: \((String(describing: bitcoinKit?.balance.spendable  ?? 0)))"
+        let satoshiBalance = bitcoinKit?.balance.spendable ?? 0
+        let bitcoinBalance = Double(satoshiBalance) / 100000000.0
+        wallet.text = "Bitcoin: \(bitcoinBalance)"
     }
     @IBAction func sendButton(_ sender: Any) {
            if let toAddress = addressField.text, let valueText = sendField.text, let value = Int(valueText) {
@@ -94,7 +96,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == sendField {
-            return CharacterSet(charactersIn: string).isSubset(of: CharacterSet(charactersIn: "0123456789"))
+            return CharacterSet(charactersIn: string).isSubset(of: CharacterSet(charactersIn: "0123456789."))
         } else if textField == addressField {
             let maxLength = 62
             let currentText = textField.text ?? ""
@@ -125,7 +127,7 @@ extension ViewController: BitcoinCoreDelegate {
     }
     
     func balanceUpdated(balance: BalanceInfo) {
-        print(balance)
+        print("\(balance)+++++++++++")
     }
     
     func lastBlockInfoUpdated(lastBlockInfo: BlockInfo) {
