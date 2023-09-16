@@ -43,10 +43,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBitcoinKit()
+        
     }
     
     @IBAction func updateBalance(_ sender: Any) {
-        wallet.text = String(describing: bitcoinKit?.balance)
+        wallet.text = "Satoshi: \((String(describing: bitcoinKit?.balance.spendable  ?? 0)))"
     }
     @IBAction func sendButton(_ sender: Any) {
            if let toAddress = addressField.text, let valueText = sendField.text, let value = Int(valueText) {
@@ -54,6 +55,13 @@ class ViewController: UIViewController,UITextFieldDelegate {
            } else {
                print("Invalid input data")
            }
+    }
+    @objc
+    func labelDidGetTapped(sender: UITapGestureRecognizer) {
+        guard let label = sender.view as? UILabel else {
+            return
+        }
+        UIPasteboard.general.string = label.text
     }
     
     
@@ -76,15 +84,16 @@ class ViewController: UIViewController,UITextFieldDelegate {
         bitcoinKit?.delegate = self
         print(bitcoinKit?.balance)
         
-        replenishmentAddress.text = "Adress:\(bitcoinKit?.receiveAddress())"
+        replenishmentAddress.text = "Adress:\(bitcoinKit?.receiveAddress() ?? "")"
 
-        while(true) {
-            sleep(10)
-            print(bitcoinKit?.balance)
-        }
+//        while(true) {
+//            sleep(10)
+//            print(bitcoinKit?.balance)
+//        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
             if textField == sendField {
                 let allowedCharacterSet = CharacterSet(charactersIn: "0123456789")
                 let inputCharacterSet = CharacterSet(charactersIn: string)
