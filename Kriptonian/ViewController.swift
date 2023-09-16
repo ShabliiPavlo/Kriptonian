@@ -82,7 +82,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         bitcoinKit?.start()
        
         bitcoinKit?.delegate = self
-        print(bitcoinKit?.balance)
+        print(bitcoinKit?.balance ?? 0)
         
         replenishmentAddress.text = "Adress:\(bitcoinKit?.receiveAddress() ?? "")"
 
@@ -93,20 +93,23 @@ class ViewController: UIViewController,UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-            if textField == sendField {
-                let allowedCharacterSet = CharacterSet(charactersIn: "0123456789")
-                let inputCharacterSet = CharacterSet(charactersIn: string)
-                return allowedCharacterSet.isSuperset(of: inputCharacterSet)
-            } else if textField == addressField {
-                let maxLength = 62
-                let currentText = textField.text ?? ""
-                let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-                textField.backgroundColor = newText.count > maxLength ? .red : .white
-                return newText.count <= maxLength
+        if textField == sendField {
+            return CharacterSet(charactersIn: string).isSubset(of: CharacterSet(charactersIn: "0123456789"))
+        } else if textField == addressField {
+            let maxLength = 62
+            let currentText = textField.text ?? ""
+            let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+            
+            if newText.count > maxLength {
+                textField.backgroundColor = .red
+                return false
+            } else {
+                textField.backgroundColor = .white
+                return true
             }
-            return true
         }
+        return true
+    }
     
 }
 
