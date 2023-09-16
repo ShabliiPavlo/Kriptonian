@@ -20,6 +20,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var wallet: UILabel!
    
     var bitcoinKit: BitcoinKit.Kit?
+    var transactions: [Transaction] = []
     
     let words = ["annual",
                  "sword",
@@ -43,13 +44,16 @@ class ViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBitcoinKit()
-        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelDidGetTapped))
+
+        replenishmentAddress.isUserInteractionEnabled = true
+        replenishmentAddress.addGestureRecognizer(tapGesture)
     }
     
     @IBAction func updateBalance(_ sender: Any) {
         let satoshiBalance = bitcoinKit?.balance.spendable ?? 0
         let bitcoinBalance = Double(satoshiBalance) / 100000000.0
-        wallet.text = "Bitcoin: \(bitcoinBalance)"
+        wallet.text = "Bitcoin: \(bitcoinBalance.formatted())"
     }
     @IBAction func sendButton(_ sender: Any) {
            if let toAddress = addressField.text, let valueText = sendField.text, let value = Int(valueText) {
@@ -65,8 +69,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         }
         UIPasteboard.general.string = label.text
     }
-    
-    
+
     func setupBitcoinKit() {
         
         let seed = Mnemonic.seed(mnemonic: words, passphrase: passphrase)!
@@ -87,11 +90,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         print(bitcoinKit?.balance ?? 0)
         
         replenishmentAddress.text = "Adress:\(bitcoinKit?.receiveAddress() ?? "")"
-
-//        while(true) {
-//            sleep(10)
-//            print(bitcoinKit?.balance)
-//        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -112,7 +110,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         }
         return true
     }
-    
 }
 
 extension ViewController: BitcoinCoreDelegate {
@@ -139,18 +136,3 @@ extension ViewController: BitcoinCoreDelegate {
     }
     
 }
-
-
-
-//let words = ["annual",
-//             "sword",
-//             "uncle",
-//             "unknown",
-//             "remove",
-//             "decline",
-//             "plate",
-//             "dust",
-//             "choose",
-//             "major",
-//             "soul",
-//             "clever"]
