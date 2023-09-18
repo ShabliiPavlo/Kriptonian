@@ -70,24 +70,34 @@
                                     <action selector="sendButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GYa-EI-TVo"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mI8-qb-mNe">
+                                <rect key="frame" x="80" y="559" width="251" height="145"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="mI8-qb-mNe" firstAttribute="top" secondItem="1OE-rQ-h4b" secondAttribute="bottom" constant="128" id="4Un-1S-zxq"/>
                             <constraint firstItem="4pU-Iw-Ebt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="4ni-si-ZBH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uDw-tl-5ay" secondAttribute="trailing" constant="62" id="6bC-zq-V6W"/>
                             <constraint firstItem="1OE-rQ-h4b" firstAttribute="top" secondItem="pee-Bp-PcG" secondAttribute="bottom" constant="17" id="8NG-e8-322"/>
                             <constraint firstItem="pee-Bp-PcG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="61" id="8Qy-7i-MJ6"/>
                             <constraint firstItem="uDw-tl-5ay" firstAttribute="top" secondItem="P8s-pR-8HZ" secondAttribute="bottom" constant="20" id="A46-CY-ObP"/>
+                            <constraint firstItem="mI8-qb-mNe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="Bep-uA-JMX"/>
                             <constraint firstItem="P8s-pR-8HZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="61" id="GF9-69-8kl"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="P8s-pR-8HZ" secondAttribute="trailing" constant="62" id="GqD-sd-Uwa"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="juW-ES-r7S" secondAttribute="trailing" constant="133" id="Imb-55-Ipm"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mI8-qb-mNe" secondAttribute="trailing" constant="62" id="MyL-tq-PIE"/>
                             <constraint firstItem="pee-Bp-PcG" firstAttribute="top" secondItem="uDw-tl-5ay" secondAttribute="bottom" constant="15" id="S6x-e4-YUO"/>
                             <constraint firstItem="1OE-rQ-h4b" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="Vb2-Ad-zzy"/>
                             <constraint firstItem="juW-ES-r7S" firstAttribute="top" secondItem="4pU-Iw-Ebt" secondAttribute="bottom" constant="22" id="W6L-c8-eO1"/>
                             <constraint firstItem="uDw-tl-5ay" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="61" id="WPh-R5-vGV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4pU-Iw-Ebt" secondAttribute="trailing" constant="49" id="deV-NU-03h"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1OE-rQ-h4b" secondAttribute="trailing" constant="100" id="djo-jz-D2x"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="mI8-qb-mNe" secondAttribute="bottom" constant="114" id="iCb-1e-Qm6"/>
                             <constraint firstItem="P8s-pR-8HZ" firstAttribute="top" secondItem="juW-ES-r7S" secondAttribute="bottom" constant="23" id="riF-Ei-4zH"/>
                             <constraint firstItem="4pU-Iw-Ebt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="48" id="uSs-iQ-ndj"/>
                             <constraint firstItem="juW-ES-r7S" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="132" id="v5Q-mc-XcU"/>
@@ -96,6 +106,7 @@
                     </view>
                     <connections>
                         <outlet property="addressField" destination="uDw-tl-5ay" id="0zY-8r-CT3"/>
+                        <outlet property="hesh" destination="mI8-qb-mNe" id="l4Z-1e-s2o"/>
                         <outlet property="replenishmentAddress" destination="4pU-Iw-Ebt" id="wh7-nB-2iP"/>
                         <outlet property="sendField" destination="pee-Bp-PcG" id="d4f-rH-jmw"/>
                         <outlet property="wallet" destination="P8s-pR-8HZ" id="dOO-4P-lxS"/>

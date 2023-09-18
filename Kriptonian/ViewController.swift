@@ -18,7 +18,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var replenishmentAddress: UILabel!
     @IBOutlet weak var wallet: UILabel!
-   
+    
+    @IBOutlet weak var hesh: UILabel!
     var bitcoinKit: BitcoinKit.Kit?
     var transactions: [Transaction] = []
     
@@ -34,18 +35,18 @@ class ViewController: UIViewController,UITextFieldDelegate {
                  "major",
                  "soul",
                  "clever"]
-
-    let passphrase: String = "sabliyrulit95"
     
+    let passphrase: String = "sabliyrulit95"
+   
     let walletId: String = "MySoUniqueIdForWallet"
     
     let logger: Logger = .init(minLogLevel: .verbose)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBitcoinKit()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelDidGetTapped))
-
+        
         replenishmentAddress.isUserInteractionEnabled = true
         replenishmentAddress.addGestureRecognizer(tapGesture)
     }
@@ -56,39 +57,57 @@ class ViewController: UIViewController,UITextFieldDelegate {
         wallet.text = "Bitcoin: \(bitcoinBalance.formatted())"
     }
     @IBAction func sendButton(_ sender: Any) {
-           if let toAddress = addressField.text, let valueText = sendField.text, let value = Int(valueText) {
-               try! bitcoinKit?.send(to: toAddress, value: value, feeRate: 10, sortType: .bip69)
-           } else {
-               print("Invalid input data")
-           }
+        if let toAddress = addressField.text, let valueText = sendField.text, let value = Double(valueText) {
+            let satoshi = Int(value * 100_000_000)
+            let result = try? bitcoinKit?.send(to: toAddress, value: satoshi, feeRate: 1, sortType: .bip69)
+            print(result as Any)
+        } else {
+            print("Invalid input data")
+        }
+        hesh.text = "\(TransactionFilterType.incoming.hashValue)"
     }
+    
     @objc
     func labelDidGetTapped(sender: UITapGestureRecognizer) {
+        copyAlert()
         guard let label = sender.view as? UILabel else {
             return
         }
         UIPasteboard.general.string = label.text
     }
-
+    
+    func copyAlert() {
+        if let address = replenishmentAddress?.text?.trimmingCharacters(in: .whitespaces) {
+            UIPasteboard.general.setValue(address, forPasteboardType: "public.plain-text")
+            
+            let alert = UIAlertController(title: "Success", message: "Address copied", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            present(alert, animated: true)
+        }
+       
+    }
+    
     func setupBitcoinKit() {
         
         let seed = Mnemonic.seed(mnemonic: words, passphrase: passphrase)!
         
-         bitcoinKit = try? BitcoinKit.Kit(
+        bitcoinKit = try? BitcoinKit.Kit(
             seed: seed,
             purpose: Purpose.bip86,
             walletId: walletId,
             syncMode: BitcoinCore.SyncMode.fromDate(date: .init(1694644847)),
             networkType: BitcoinKit.Kit.NetworkType.testNet,
-            confirmationsThreshold: 6,
+            confirmationsThreshold: 1,
             logger: logger
         )
-                
+        
         bitcoinKit?.start()
-       
+        
         bitcoinKit?.delegate = self
         print(bitcoinKit?.balance ?? 0)
-        
+        bitcoinKit?.transactions(type: TransactionFilterType.incoming)
+        print(TransactionFilterType.incoming.hashValue)
+       
         replenishmentAddress.text = "Adress:\(bitcoinKit?.receiveAddress() ?? "")"
     }
     
